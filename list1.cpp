@@ -86,7 +86,7 @@ int main()
     t.push_back(91);
 
 
-    cout << "List is given as = \n";
+    cout << "pushed back List is given as = \n";
     cout << "Head -- > ";
     t.print_list();
     cout << "nullptr" << endl;
@@ -97,7 +97,7 @@ int main()
     t1.push_front(12);
     t1.push_front(91);
 
-    cout << "List is given as = \n";
+    cout << "pushed front List is given as = \n";
     cout << "Head -- > ";
     t1.print_list();
     cout << "nullptr";

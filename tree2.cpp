@@ -91,7 +91,6 @@ class createtree{
                 postorder(curr -> left);
                 postorder(curr -> right);
 
-
             }
 
             void inorder(Node *root)
