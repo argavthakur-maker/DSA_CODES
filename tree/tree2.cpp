@@ -213,7 +213,30 @@ class createtree{
                 return root;
             }
 
-};
+            bool check_node(Node* root , int val)
+            {
+                if(root == nullptr)
+                {
+                    return false;
+                }
+                Node *temp = root;
+
+                if(temp -> data == val)
+                {
+                    return true;
+                }
+
+                else if(val > temp -> data)
+                {
+                    check_node(temp -> right , val);
+                }
+                else if(val < temp -> data)
+                {
+                    check_node(temp -> left , val);
+                }
+
+            }
+        };
 int main()
 {
     createtree t;
@@ -223,20 +246,40 @@ int main()
     t.add_node(20);
     t.add_node(21);
 
+    //preorder
+    cout << "preorder traversal"<< ' ';
+    t.preorder(t.root);
+    cout << endl;
 
+    //postorder
+    cout << "postrorder traversal"<< ' ';
+    t.postorder(t.root);
+    cout << endl;
+
+    //inorder
+    cout << "inorder traversal" << ' ';
+    t.inorder(t.root);
+    cout << endl << endl;
+
+    //BEFORE DELETING NODE
     cout << "Before deleting node = "<< endl;
     t.inorder(t.root);
-    cout << "\n";
-    // cout << "preorder traversal"<< ' ';
-    // t.preorder(t.root);
-    // cout << "\n";
-    // cout << "postrorder traversal"<< ' ';
-    // t.postorder(t.root);
-    // cout << endl;
+    cout << endl;
 
-    t.deletenode(t.root , 21);
-    cout << "After deleting node = " << endl;
-    t.inorder(t.root);
+
+    //AFTER NODE DELETION
+    int node;
+    cout << "Enter the node data you want to delete = \n";
+    cin >> node;
+    if(t.check_node(t.root,node))
+    {
+        t.deletenode(t.root , node);
+        cout << "After deleting node = " << endl;
+        t.inorder(t.root);
+    }
+    else{
+        cout << "given data is not present inside the tree";
+    }
 
     
 
