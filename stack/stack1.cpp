@@ -67,6 +67,26 @@ Node *top;
 
         return count;
     }
+    bool find(int val)
+    {
+        Node *temp = top;
+        while(temp != nullptr)
+        {
+            if(temp -> data == val)
+            {
+                return true;
+            }
+            else{
+                temp = temp -> next;
+            }
+
+            return false;
+
+        }
+
+
+    }
+
 
 
 };
@@ -85,6 +105,14 @@ int main()
     cout << "top element = " << s.peek() << endl;
     cout << "Size of stack = " << s.size() << endl;
     s.print();
+    cout << endl;
 
+    if(s.find(98))
+    {
+        cout << "Element is present";
+    }
+    else{
+        cout << "Element is not present";
+    }
 
 }
