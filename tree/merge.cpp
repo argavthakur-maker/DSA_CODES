@@ -14,12 +14,14 @@ void merge(int arr[] , int low ,int mid, int high)
           {
                 temp[k] = arr[i];
                 i++;
+                k++;
           }
           else{
                 temp[k] = arr[j];
                 j++;
+                k++;
           }
-          k++;
+        //   k++;
     }
 
     while(i <= mid)
