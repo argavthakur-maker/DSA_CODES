@@ -1,289 +1,259 @@
 #include <iostream>
 using namespace std;
-class Node{
-public:
-    int data;
-    Node *left;
-    Node *right;
 
+// Purpose: Represents one node in a binary search tree.
+class Node {
+public:
+    int data;      // Value stored in the node.
+    Node *left;    // Pointer to the left subtree.
+    Node *right;   // Pointer to the right subtree.
+
+    // Purpose: Creates a node with the given value and null child pointers.
     Node(int val)
     {
         data = val;
         left = right = nullptr;
     }
 };
-class createtree{
 
-    public:
+// Purpose: Implements a binary search tree with insertion, traversal, search, and deletion features.
+class createtree {
+public:
     Node *root;
+
+    // Purpose: Initializes the tree as empty.
     createtree()
     {
         root = nullptr;
     }
 
+    // Purpose: Inserts a new value into the BST at its correct position.
+    void add_node(int val)
+    {
+        Node *newNode = new Node(val);
 
-    public: 
-            void add_node(int val)
+        if (root == nullptr)
+        {
+            root = newNode;
+            return;
+        }
+
+        Node *curr = root;
+        while (true)
+        {
+            if (newNode->data < curr->data)
             {
-                Node *newNode = new Node(val);
-
-                if(root == nullptr)
+                if (curr->left == nullptr)
                 {
-                    root = newNode;
+                    curr->left = newNode;
                     return;
                 }
-                Node *curr = root;
-                while(true)
-                    {
-                       if(newNode->data < curr->data)
-                        {
-                            if(curr->left == nullptr)
-                            {
-                                curr->left = newNode;
-                                return;
-                            }
-                            else
-                            {
-                                curr = curr->left;
-                            }
-                        }
-                        else
-                        {
-                            if(curr->right == nullptr)
-                            {
-                                curr->right = newNode;
-                                return;
-                            }
-                            else
-                            {
-                                curr = curr->right;
-                            }
-                        }
-    
-                }
-
-                }
-
-            void postorder(Node *root)
+                curr = curr->left;
+            }
+            else
             {
-                Node *curr = root;
-                if(curr == nullptr)
+                if (curr->right == nullptr)
                 {
+                    curr->right = newNode;
                     return;
                 }
-
-                postorder(curr -> left);
-                postorder(curr -> right);
-                cout << root -> data << " ";
-
-
+                curr = curr->right;
             }
+        }
+    }
 
-            void preorder(Node *root)
+    // Purpose: Prints the tree in preorder: root, left, right.
+    void preorder(Node *curr)
+    {
+        if (curr == nullptr)
+        {
+            return;
+        }
+
+        cout << curr->data << " ";
+        preorder(curr->left);
+        preorder(curr->right);
+    }
+
+    // Purpose: Prints the tree in postorder: left, right, root.
+    void postorder(Node *curr)
+    {
+        if (curr == nullptr)
+        {
+            return;
+        }
+
+        postorder(curr->left);
+        postorder(curr->right);
+        cout << curr->data << " ";
+    }
+
+    // Purpose: Prints the tree in inorder: left, root, right.
+    void inorder(Node *curr)
+    {
+        if (curr == nullptr)
+        {
+            return;
+        }
+
+        inorder(curr->left);
+        cout << curr->data << " ";
+        inorder(curr->right);
+    }
+
+    // Purpose: Counts how many nodes are present in the tree.
+    int counte_nodes(Node *curr)
+    {
+        if (curr == nullptr)
+        {
+            return 0;
+        }
+
+        return 1 + counte_nodes(curr->left) + counte_nodes(curr->right);
+    }
+
+    // Purpose: Searches the tree for a target value and prints whether it exists.
+    void search(Node *curr, int key)
+    {
+        if (curr == nullptr)
+        {
+            cout << "Key is Absent" << endl;
+            return;
+        }
+
+        if (key == curr->data)
+        {
+            cout << "Given key is present in the tree" << endl;
+            return;
+        }
+        else if (key < curr->data)
+        {
+            search(curr->left, key);
+        }
+        else if (key > curr->data)
+        {
+            search(curr->right, key);
+        }
+    }
+
+    // Purpose: Finds the smallest node in the right subtree to replace a deleted node.
+    Node *get(Node *curr)
+    {
+        while (curr != nullptr && curr->left != nullptr)
+        {
+            curr = curr->left;
+        }
+        return curr;
+    }
+
+    // Purpose: Removes a node with a given key from the tree while preserving BST rules.
+    Node *deletenode(Node *curr, int key)
+    {
+        if (curr == nullptr)
+        {
+            return nullptr;
+        }
+
+        if (key < curr->data)
+        {
+            curr->left = deletenode(curr->left, key);
+        }
+        else if (key > curr->data)
+        {
+            curr->right = deletenode(curr->right, key);
+        }
+        else
+        {
+            if (curr->left == nullptr && curr->right == nullptr)
             {
-                Node *curr = root;
-                if(curr == nullptr)
-                {
-                    return;
-                }
-
-                cout << root -> data << " ";
-                postorder(curr -> left);
-                postorder(curr -> right);
-
+                delete curr;
+                return nullptr;
             }
-
-            void inorder(Node *root)
+            else if (curr->left == nullptr)
             {
-                Node *curr = root;
-                if(curr == nullptr)
-                {
-                    return;
-                }
-
-                postorder(curr -> left);
-                cout << root -> data << " ";
-                postorder(curr -> right);
-
-
+                Node *temp = curr->right;
+                delete curr;
+                return temp;
             }
-            
-
-
-            int counte_nodes(Node *root)
+            else if (curr->right == nullptr)
             {
-                int count = 0;
-
-                Node *curr = root;
-                while(true)
-                {
-                    if(root -> left != nullptr)
-                    {
-                        count += 1;
-                        root = root -> left;
-                    }
-                    else{
-                        count += 1;
-
-                        root = root -> right;
-                    }
-                }
-                   
+                Node *temp = curr->left;
+                delete curr;
+                return temp;
             }
-
-            void search(Node *root , int key){
-                if(root == nullptr)
-                {
-                    cout << "Key is Absent" << endl;
-                    return;
-                }
-
-                if(key == root -> data)
-                {
-                    cout << "Given key is present in the tree" << endl;
-                    return;
-                }
-                
-                else if(key < root -> data)
-                {
-                    search(root -> left , key);
-                }
-
-                else if(key > root -> data)
-                {
-                    search(root -> right , key);
-                }
-            }
-
-            Node *deletenode(Node *root , int key)
+            else
             {
-                if(root == nullptr)
-                {
-                    return nullptr;
-                }
-
-                if(key < root->data)
-                {
-                    root->left = deletenode(root->left , key);
-                }
-                else if(key > root->data)
-                {
-                    root->right = deletenode(root->right , key);
-                }
-                else{
-
-                    if(root -> left == nullptr && root -> right == nullptr)
-                    {
-                        delete root;
-                        return nullptr;
-                    }
-                    else if(root -> left == nullptr)
-                    {
-                        Node *temp = root -> right;
-                        delete root;
-                        return temp;
-                    }
-                    else if(root -> right == nullptr)
-                    {
-                        Node *temp = root -> left;
-                        delete root;
-                        return temp;
-
-                    }
-                    else if(root -> left != nullptr && root -> right != nullptr)
-                    {
-                        Node *temp = get(root -> right);
-                        root -> data = temp -> data;
-                        root -> right = deletenode(root -> right , temp -> data);
-                    }
-                }
-                return root;
-
-
+                Node *temp = get(curr->right);
+                curr->data = temp->data;
+                curr->right = deletenode(curr->right, temp->data);
             }
+        }
+        return curr;
+    }
 
+    // Purpose: Checks whether a given value exists in the tree.
+    bool check_node(Node *curr, int val)
+    {
+        if (curr == nullptr)
+        {
+            return false;
+        }
 
+        if (curr->data == val)
+        {
+            return true;
+        }
+        else if (val > curr->data)
+        {
+            return check_node(curr->right, val);
+        }
+        else
+        {
+            return check_node(curr->left, val);
+        }
+    }
+};
 
-            Node *get(Node *root)
-            {
-                while(root != nullptr && root -> left == nullptr)
-                {
-                    root = root -> left;
-                }
-                return root;
-            }
-
-            bool check_node(Node* root , int val)
-            {
-                if(root == nullptr)
-                {
-                    return false;
-                }
-                Node *temp = root;
-
-                if(temp -> data == val)
-                {
-                    return true;
-                }
-
-                else if(val > temp -> data)
-                {
-                    check_node(temp -> right , val);
-                }
-                else if(val < temp -> data)
-                {
-                    check_node(temp -> left , val);
-                }
-
-            }
-        };
+// Purpose: Demonstrates building a BST and performing traversal operations.
 int main()
 {
     createtree t;
 
-
     t.add_node(10);
     t.add_node(20);
     t.add_node(21);
+    t.add_node(5);
+    t.add_node(15);
 
-    //preorder
-    cout << "preorder traversal"<< ' ';
+    cout << "preorder traversal: ";
     t.preorder(t.root);
     cout << endl;
 
-    //postorder
-    cout << "postrorder traversal"<< ' ';
+    cout << "postorder traversal: ";
     t.postorder(t.root);
     cout << endl;
 
-    //inorder
-    cout << "inorder traversal" << ' ';
-    t.inorder(t.root);
-    cout << endl << endl;
-
-    //BEFORE DELETING NODE
-    cout << "Before deleting node = "<< endl;
+    cout << "inorder traversal: ";
     t.inorder(t.root);
     cout << endl;
 
+    cout << "Total nodes: " << t.counte_nodes(t.root) << endl;
+    t.search(t.root, 15);
+    t.search(t.root, 99);
 
-    //AFTER NODE DELETION
-    int node;
-    cout << "Enter the node data you want to delete = \n";
-    cin >> node;
-    if(t.check_node(t.root,node))
+    if (t.check_node(t.root, 21))
     {
-        t.deletenode(t.root , node);
-        cout << "After deleting node = " << endl;
-        t.inorder(t.root);
+        cout << "21 is present" << endl;
     }
-    else{
-        cout << "given data is not present inside the tree";
+    else
+    {
+        cout << "21 is absent" << endl;
     }
 
-    
+    t.root = t.deletenode(t.root, 20);
+    cout << "After deleting 20, inorder traversal: ";
+    t.inorder(t.root);
+    cout << endl;
 
-
-
-
+    return 0;
 }

@@ -1,96 +1,105 @@
 #include <iostream>
 using namespace std;
-class Node{
-public:
-    int data;
-    Node *next;
-    Node *top;
 
+// Purpose: Represents one node in a stack implemented using a linked list.
+class Node {
+public:
+    int data;   // Value stored in the node.
+    Node *next; // Pointer to the next node.
+    Node *top;  // Top pointer for the stack.
+
+    // Purpose: Creates a node with the given value and null next pointer.
     Node(int val)
     {
         data = val;
         next = top = nullptr;
     }
 };
-class Stax{
 
+// Purpose: Implements stack operations using a linked list.
+class Stax {
 public:
-Node *top;
+    Node *top;
+
+    // Purpose: Initializes an empty stack.
     Stax()
     {
         top = nullptr;
     }
-        void push_back(int val)
+
+    // Purpose: Pushes a new element onto the top of the stack.
+    void push_back(int val)
     {
-        Node *newNode  = new Node(val);
-        if(top == nullptr)
+        Node *newNode = new Node(val);
+        if (top == nullptr)
         {
             top = newNode;
             return;
         }
-        newNode -> next = top;
+        newNode->next = top;
         top = newNode;
     }
 
+    // Purpose: Removes the element currently on top of the stack.
     void delete_ele()
     {
+        if (top == nullptr)
+            return;
+
         Node *temp = top;
-        top = temp -> next;
+        top = temp->next;
         delete temp;
     }
 
+    // Purpose: Returns the value of the top element without removing it.
     int peek()
     {
         return top->data;
     }
 
+    // Purpose: Prints every element in the stack from top to bottom.
     void print()
     {
         Node *temp = top;
-        while(temp != nullptr)
+        while (temp != nullptr)
         {
-            cout << temp -> data << ' ';
-            temp = temp -> next;
+            cout << temp->data << ' ';
+            temp = temp->next;
         }
- 
     }
 
+    // Purpose: Counts how many elements are currently in the stack.
     int size()
     {
         Node *temp = top;
         int count = 0;
-        while(temp != nullptr)
+        while (temp != nullptr)
         {
             count += 1;
-            temp = temp -> next;
+            temp = temp->next;
         }
 
         return count;
     }
+
+    // Purpose: Searches the stack for a specific value and returns true if found.
     bool find(int val)
     {
         Node *temp = top;
-        while(temp != nullptr)
+        while (temp != nullptr)
         {
-            if(temp -> data == val)
+            if (temp->data == val)
             {
                 return true;
             }
-            else{
-                temp = temp -> next;
-            }
-
-            return false;
-
+            temp = temp->next;
         }
 
-
+        return false;
     }
-
-
-
 };
 
+// Purpose: Demonstrates stack push, peek, size, print, and search operations.
 int main()
 {
     Stax s;
@@ -100,19 +109,18 @@ int main()
     s.push_back(12);
     s.push_back(98);
 
-
-    // s.delete_ele();
     cout << "top element = " << s.peek() << endl;
     cout << "Size of stack = " << s.size() << endl;
     s.print();
     cout << endl;
 
-    if(s.find(98))
+    if (s.find(98))
     {
         cout << "Element is present";
     }
-    else{
+    else
+    {
         cout << "Element is not present";
     }
-
+   return 0;
 }
