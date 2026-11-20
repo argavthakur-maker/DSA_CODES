@@ -73,6 +73,32 @@ public:
 
         delete temp;
     }
+
+    //For Dequeueing from rear 
+    void delete_last()
+    {
+        //checking whether queue is empty or not
+        if(first == nullptr)
+        {
+            cout << "Queue is empty!";
+            return;
+        }
+
+        Node *temp = first;
+        //reaching the second last node
+        while(temp -> next -> next != nullptr)
+        {
+            temp = temp -> next;
+        }
+
+        //declaring a var that stores last nodes address to delete
+        Node *del = temp -> next;
+        delete del;
+        last = temp;
+        last -> next = nullptr;
+        
+
+    }
 };
 
 // Purpose: Demonstrates queue insertion, display, and removal.
@@ -87,9 +113,11 @@ int main()
     q_1.print();
     cout << endl;
 
-    cout << "After pop = " << endl;
-    q_1.pop();
+    cout << "poping from last = " << endl;
+    q_1.delete_last();
     q_1.print();
+    cout << endl;
     cout << "program ended !!" << endl;
     return 0;
+
 }
