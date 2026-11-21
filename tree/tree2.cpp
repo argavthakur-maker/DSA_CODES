@@ -1,4 +1,5 @@
 #include <iostream>
+#include <queue> //using STL queue for level order traversal
 using namespace std;
 
 // Purpose: Represents one node in a binary search tree.
@@ -101,6 +102,33 @@ public:
         inorder(curr->right);
     }
 
+    void level_order(Node *curr)
+    {
+        queue<Node*> nums;
+
+        nums.push(curr);
+
+        while(nums.size() > 0)
+        {
+            Node *read = nums.front();
+            nums.pop();
+
+            cout << read -> data << ' ';
+
+            if(read -> left != nullptr)
+            {
+                nums.push(read -> left);
+            }
+
+            if(read -> right != nullptr)
+            {
+                nums.push(read -> right);
+            }
+
+        }
+
+    }
+
     // Purpose: Counts how many nodes are present in the tree.
     int counte_nodes(Node *curr)
     {
@@ -112,28 +140,26 @@ public:
         return 1 + counte_nodes(curr->left) + counte_nodes(curr->right);
     }
 
-    // Purpose: Searches the tree for a target value and prints whether it exists.
-    void search(Node *curr, int key)
+    // Purpose: Searches the tree for a given target value .
+    bool search(Node *curr, int key)
     {
-        if (curr == nullptr)
+    
+        while(curr != nullptr)
         {
-            cout << "Key is Absent" << endl;
-            return;
+            if (key == curr->data)
+            {
+                return true;
+            }
+            else if (key < curr->data)
+            {
+                curr = curr -> left;
+            }
+            else if (key > curr->data)
+            {
+                curr = curr -> right;
+            }
         }
-
-        if (key == curr->data)
-        {
-            cout << "Given key is present in the tree" << endl;
-            return;
-        }
-        else if (key < curr->data)
-        {
-            search(curr->left, key);
-        }
-        else if (key > curr->data)
-        {
-            search(curr->right, key);
-        }
+        return false;
     }
 
     // Purpose: Finds the smallest node in the right subtree to replace a deleted node.
@@ -191,27 +217,8 @@ public:
         return curr;
     }
 
-    // Purpose: Checks whether a given value exists in the tree.
-    bool check_node(Node *curr, int val)
-    {
-        if (curr == nullptr)
-        {
-            return false;
-        }
 
-        if (curr->data == val)
-        {
-            return true;
-        }
-        else if (val > curr->data)
-        {
-            return check_node(curr->right, val);
-        }
-        else
-        {
-            return check_node(curr->left, val);
-        }
-    }
+
 };
 
 // Purpose: Demonstrates building a BST and performing traversal operations.
@@ -237,11 +244,15 @@ int main()
     t.inorder(t.root);
     cout << endl;
 
+     cout << "levelorder traversal: ";
+    t.level_order(t.root);
+    cout << endl;
+
     cout << "Total nodes: " << t.counte_nodes(t.root) << endl;
     t.search(t.root, 15);
     t.search(t.root, 99);
 
-    if (t.check_node(t.root, 21))
+    if (t.search(t.root, 21))
     {
         cout << "21 is present" << endl;
     }
@@ -254,6 +265,5 @@ int main()
     cout << "After deleting 20, inorder traversal: ";
     t.inorder(t.root);
     cout << endl;
-
     return 0;
 }
