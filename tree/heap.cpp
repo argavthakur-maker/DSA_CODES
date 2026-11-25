@@ -120,12 +120,14 @@ public:
 int main()
 {
     builtheap b_1;
-
+    //Added first element in heap
     b_1.create(90);
+    //Added second element in heap
     b_1.create(89);
+    //Added third element in heap
     b_1.create(45);
+    //Added fourth element in heap
     b_1.create(67);
-
-
+    //For displaying heap
     b_1.display();
 }
