@@ -217,6 +217,13 @@ public:
         return curr;
     }
 
+    bool neg_check(Node *curr)
+    {
+        if(curr == nullptr)
+        {
+            return false;
+        }
+    }
 
 
 };
