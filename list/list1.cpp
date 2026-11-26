@@ -73,6 +73,25 @@ public:
             temp = temp->next;
         }
     }
+
+
+    //Function to reverse a linked list 
+    void rev_list()
+    {
+        Node *temp = nullptr;
+        Node *prev = nullptr;
+        Node *curr = head;
+
+        while(curr != nullptr)
+        {
+            temp = curr -> next;
+            curr -> next = prev;
+            prev = curr;
+            curr = temp;
+
+        }
+        head = prev;
+    }
 };
 
 // Purpose: Demonstrates adding values to a linked list using back and front insertion.
@@ -84,6 +103,10 @@ int main()
     t.push_back(90);
     t.push_back(12);
     t.push_back(91);
+
+
+    //ALL THE FUNCTION OF LINKED LIST ARE CALLED HERE
+
 
     cout << "pushed back List is given as = \n";
     cout << "Head -- > ";
@@ -98,6 +121,13 @@ int main()
     cout << "pushed front List is given as = \n";
     cout << "Head -- > ";
     t1.print_list();
-    cout << "nullptr";
+    cout << "nullptr" << endl;
+
+    cout << "Reversed linked list = \n";
+    t1.rev_list();
+    t1.print_list();
+
+
     return 0;
+
 }
